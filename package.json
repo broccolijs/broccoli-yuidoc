@@ -1,0 +1,21 @@
+{
+  "author": "Ferdi Schmidt",
+  "name": "broccoli-yuidoc",
+  "main": "index.js",
+  "description": "YUIDoc generator plugin for broccoli.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/nands/broccoli-yuidoc"
+  },
+  "dependencies": {
+    "yuidocjs": "~0.3.50",
+    "broccoli-merge-trees": "~0.1.3",
+    "merge": "~1.1.3",
+    "broccoli-static-compiler": "~0.1.4",
+    "broccoli-filter": "~0.1.6",
+    "rsvp": "~3.0.6"
+  },
+  "engines": {
+    "node": "*"
+  }
+}
