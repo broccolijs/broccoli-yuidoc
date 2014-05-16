@@ -3,7 +3,7 @@
   "name": "broccoli-yuidoc",
   "main": "index.js",
   "description": "YUIDoc generator plugin for broccoli.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/nands/broccoli-yuidoc"
   },
@@ -17,5 +17,9 @@
   },
   "engines": {
     "node": "*"
-  }
+  },
+  "keywords": [
+	"broccoli-plugin",
+	"yuidoc"
+  ]
 }
