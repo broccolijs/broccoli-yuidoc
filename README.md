@@ -23,9 +23,12 @@ used as well.
 ```js
 var yuidocCompiler = require('broccoli-yuidoc');
 
-var yuidocTree = yuidocCompiler({
-	'paths': ['app'],
-	'outdir': 'docs'
+var yuidocTree = yuidocCompiler('app', {
+	'srcDir': '/',
+	'destDir': 'docs',
+	yuidoc: {
+		// .. yuidoc option overrides
+	}
 });
 
 module.exports = yuidocTree;
@@ -33,5 +36,3 @@ module.exports = yuidocTree;
 
 It's recomended to use `broccoli-merge-trees` to finally produce
 a signle tree for broccoli to work on.
-
-P.S.: It doesn't actually build any additional trees. 

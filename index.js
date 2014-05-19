@@ -1,58 +1,127 @@
-var spawn = require('child_process').spawn;
+'use strict';
+
 var merge = require('merge');
-var pickFiles = require('broccoli-static-compiler');
 var yuidoc = require('yuidocjs');
-var filter = require('broccoli-filter');
+var cachingWriter= require('broccoli-caching-writer');
 var rsvp = require('rsvp');
 var fs = require('fs');
+var walkSync = require('walk-sync');
+var path =require('path');
+var mkdirp = require('mkdirp');
+var rimraf = require('rimraf');
 
+/**
+ * yuidocCompiler
+ * @module broccoli-yuidoc
+ */
 module.exports = yuidocCompiler;
 
-yuidocCompiler.prototype = Object.create(filter.prototype);
+yuidocCompiler.prototype = Object.create(cachingWriter.prototype);
 yuidocCompiler.prototype.constructor = yuidocCompiler;
 
-function yuidocCompiler(inputTree, options)
+/**
+ * yuidocCompiler
+ *
+ * @param {String} input_tree
+ * @param {Object} options
+ * @constructor
+ * @class yuidocCompiler
+ */
+function yuidocCompiler(input_tree, options)
 {
 	if (!(this instanceof yuidocCompiler)) {
-		return new yuidocCompiler(inputTree, options);
+		return new yuidocCompiler(input_tree, options);
 	}
 
-	this.inputTree = inputTree;
+	this.inputTree = input_tree;
 
 	var defaults = {
-		'paths': ['app'],
-		'outdir': 'docs',
-		'linkNatives': true,
-		'quiet': true,
-		'parseOnly': false,
-		'lint': false
+		srcDir: 'app',
+		destDir: 'docs',
+		yuidoc: {
+			linkNatives: true,
+			quiet: true,
+			parseOnly: false,
+			lint: false
+		}
 	};
 
 	this.options = merge(defaults, options);
 }
 
-yuidocCompiler.prototype.write = function(readTree, destDir)
+/**
+ * Generates YUIdoc documentation
+ *
+ * This method will be called in the event that any file has changed
+ * within the specified inputTree.
+ *
+ * @param {String} src_dir
+ * @param {String} dest_dir
+ * @method updateCache
+ */
+yuidocCompiler.prototype.updateCache = function(src_dir, dest_dir)
 {
+	var options = this.options.yuidoc;
+
+	options.paths = options.paths || [src_dir];
+	options.outdir = options.outdir || dest_dir;
+
 	try {
-		var json = (new yuidoc.YUIDoc(this.options)).run();
+		var json = (new yuidoc.YUIDoc(options)).run();
 	} catch(e) {
 		throw e;
 	}
 
-	this.options = yuidoc.Project.mix(json, this.options);
+	options = yuidoc.Project.mix(json, options);
 
-	if (this.options.parseOnly) {
-		fs.writeFileSync(path.join(this.options.outdir, 'data.json'), JSON.stringify(json, null, 4));
+	if (options.parseOnly) {
+		fs.writeFileSync(path.join(options.outdir, 'data.json'), JSON.stringify(json, null, 4));
+
 		return;
-    } else {
-		var builder = new yuidoc.DocBuilder(this.options, json);
-	
-		return new rsvp.Promise(function(resolve, reject)
-		{
-			builder.compile(function()
-			{
-				resolve();
-			});
-		}.bind(this));
-	}
+    }
+
+	var builder = new yuidoc.DocBuilder(options, json);
+
+	/**
+	 * Due to infavorable handling of this function's return value on the
+	 * upper level at broccoli-caching-writer, we cannot return a promise.
+	 *
+	 * Thus, we'll need to short-circuit the task of copying the files over.
+	 */
+
+	var self = this;
+
+	builder.compile(function()
+	{
+		if (fs.existsSync(self.options.destDir)) {
+			rimraf.sync(self.options.destDir);
+		}
+
+		linkFromCache(dest_dir, self.options.destDir);
+	});
 };
+
+/**
+ * I hate duplication just as much as the next person.
+ * @see https://github.com/rjackson/broccoli-caching-writer/blob/master/index.js#L62
+ */
+function linkFromCache(srcDir, destDir) {
+  var files = walkSync(srcDir);
+  var length = files.length;
+  var file;
+
+  for (var i = 0; i < length; i++) {
+    file = files[i];
+
+    var srcFile = path.join(srcDir, file);
+    var stats   = fs.statSync(srcFile);
+
+    if (stats.isDirectory()) { continue; }
+
+    if (!stats.isFile()) { throw new Error('Can not link non-file.'); }
+
+    destFile = path.join(destDir, file);
+    mkdirp.sync(path.dirname(destFile));
+    fs.linkSync(srcFile, destFile);
+  }
+}
