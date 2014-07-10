@@ -64,7 +64,7 @@ yuidocCompiler.prototype.updateCache = function(src_dir, dest_dir)
 	var options = this.options.yuidoc;
 
 	options.paths = options.paths || [src_dir];
-	options.outdir = options.outdir || dest_dir;
+	options.outdir = [dest_dir, this.options.destDir].join('/');
 
 	try {
 		var json = (new yuidoc.YUIDoc(options)).run();
@@ -81,47 +81,13 @@ yuidocCompiler.prototype.updateCache = function(src_dir, dest_dir)
     }
 
 	var builder = new yuidoc.DocBuilder(options, json);
-
-	/**
-	 * Due to infavorable handling of this function's return value on the
-	 * upper level at broccoli-caching-writer, we cannot return a promise.
-	 *
-	 * Thus, we'll need to short-circuit the task of copying the files over.
-	 */
-
 	var self = this;
 
-	builder.compile(function()
+	return new rsvp.Promise(function(resolve)
 	{
-		if (fs.existsSync(self.options.destDir)) {
-			rimraf.sync(self.options.destDir);
-		}
-
-		linkFromCache(dest_dir, self.options.destDir);
+		builder.compile(function()
+		{
+			resolve();
+		});
 	});
 };
-
-/**
- * I hate duplication just as much as the next person.
- * @see https://github.com/rjackson/broccoli-caching-writer/blob/master/index.js#L62
- */
-function linkFromCache(srcDir, destDir) {
-  var files = walkSync(srcDir);
-  var length = files.length;
-  var file;
-
-  for (var i = 0; i < length; i++) {
-    file = files[i];
-
-    var srcFile = path.join(srcDir, file);
-    var stats   = fs.statSync(srcFile);
-
-    if (stats.isDirectory()) { continue; }
-
-    if (!stats.isFile()) { throw new Error('Can not link non-file.'); }
-
-    destFile = path.join(destDir, file);
-    mkdirp.sync(path.dirname(destFile));
-    fs.linkSync(srcFile, destFile);
-  }
-}
