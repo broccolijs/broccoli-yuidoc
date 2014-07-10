@@ -23,7 +23,14 @@ used as well.
 
 ```js
 var yuidocCompiler = require('broccoli-yuidoc');
+var mergeTrees = require('broccoli-merge-trees');
 
+// As with most other broccoli plugins, you can
+// define the base directory of the files you
+// would like documentation generated for as 
+// the first paramter, and specify source and
+// destination directories.
+// Custom YUIdoc options is passed as yuidoc.
 var yuidocTree = yuidocCompiler('app', {
 	srcDir: '/',
 	destDir: 'docs',
@@ -32,7 +39,12 @@ var yuidocTree = yuidocCompiler('app', {
 	}
 });
 
-module.exports = yuidocTree;
+
+// To merge the YUIdoc build tree with, let's say,
+// an ember application tree, use broccoli-mergetrees 
+var applicationTree = mergeTrees([app.toTree(), yuidocTree]);
+
+module.exports = applicationTree;
 ```
 
 It's recomended to use `broccoli-merge-trees` to finally produce
