@@ -14,7 +14,8 @@
     "rsvp": "~3.0.6",
     "broccoli-caching-writer": "~0.3.0",
     "walk-sync": "~0.1.2",
-    "rimraf": "~2.2.8"
+    "rimraf": "~2.2.8",
+	"mkdirp": "~0.5.0"
   },
   "engines": {
     "node": "*"
