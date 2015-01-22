@@ -8,7 +8,7 @@
     "url": "https://github.com/uitgewis/broccoli-yuidoc"
   },
   "dependencies": {
-    "yuidocjs": "~0.3.50",
+    "yuidocjs": "~0.5.0",
     "broccoli-merge-trees": "~0.2.1",
     "merge": "~1.2.0",
     "rsvp": "~3.0.14",
