@@ -31,7 +31,7 @@ var mergeTrees = require('broccoli-merge-trees');
 // the first paramter, and specify source and
 // destination directories.
 // Custom YUIdoc options is passed as yuidoc.
-var yuidocTree = yuidocCompiler('app', {
+var yuidocTree = new yuidocCompiler('app', {
 	srcDir: '/',
 	destDir: 'docs',
 	yuidoc: {
