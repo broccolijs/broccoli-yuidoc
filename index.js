@@ -18,47 +18,42 @@ var defaultOpts = {
 };
 
 var BroccoliYuidoc = function BroccoliYuidoc(inputNodes, options) {
-  if (!(this instanceof BroccoliYuidoc)) {
-    return new BroccoliYuidoc(inputNodes, options);
-  }
-
   options = options || {};
   CachingWriter.call(this, inputNodes, {
     annotation: options.annotation
   });
+
   this.inputNodes = inputNodes;
-  this.options    = merge(defaultOpts, options);
+  this.options = merge(defaultOpts, options);
 };
 
 BroccoliYuidoc.prototype = Object.create(CachingWriter.prototype);
 BroccoliYuidoc.prototype.constructor = BroccoliYuidoc;
 BroccoliYuidoc.prototype.description = 'yuidoc';
-BroccoliYuidoc.prototype.write = function(readTree, destDir) {
-  var self = this;
-  return readTree(this.inputNodes).then(function() {
-    var options = self.options;
+BroccoliYuidoc.prototype.build = function() {
+  var destDir = this.options.destDir;
+  var yuiOptions = this.options.yuidoc;
 
-    options.paths = options.paths || srcPaths;
-    options.outdir = [destDir, self.destDir].join('/');
+  yuiOptions.paths = this.inputNodes;
+  yuiOptions.outdir = path.join(this.outputPath, destDir);
 
-     try {
-       var json = (new yuidoc.YUIDoc(options)).run();
-     } catch(e) {
-       throw e;
-     }
+  try {
+    var json = (new yuidoc.YUIDoc(yuiOptions)).run();
+  } catch(e) {
+    throw e;
+  }
 
-    options = yuidoc.Project.mix(json, options);
+  yuiOptions = yuidoc.Project.mix(json, yuiOptions);
 
-    if (options.parseOnly) {
-      fs.writeFileSync(path.join(options.outdir, 'data.json'), JSON.stringify(json, null, 4));
-      return;
-    }
+  if (yuiOptions.parseOnly) {
+    fs.writeFileSync(path.join(yuiOptions.outdir, 'data.json'), JSON.stringify(json, null, 4));
+    return;
+  }
 
-    var builder = new yuidoc.DocBuilder(options, json);
+  var builder = new yuidoc.DocBuilder(yuiOptions, json);
 
-    return new rsvp.Promise(function(resolve) {
-      builder.compile(function() { resolve(); });
-    });
+  return new rsvp.Promise(function(resolve) {
+    builder.compile(function() { resolve(); });
   });
 };
 
