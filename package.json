@@ -8,11 +8,11 @@
     "url": "https://github.com/uitgewis/broccoli-yuidoc"
   },
   "dependencies": {
-    "yuidocjs": "~0.5.0",
-    "broccoli-merge-trees": "~0.2.1",
+    "yuidocjs": "~0.9.0",
+    "broccoli-merge-trees": "~0.2.3",
     "merge": "~1.2.0",
-    "rsvp": "~3.0.14",
-    "broccoli-caching-writer": "~0.5.1"
+    "rsvp": "~3.1.0",
+    "broccoli-caching-writer": "~2.0.1"
   },
   "engines": {
     "node": "*"
