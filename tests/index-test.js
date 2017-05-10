@@ -19,7 +19,7 @@ describe('BroccoliYUIDoc', function() {
 
   it('rebuilds and updates', co.wrap(function* () {
     input.write({
-      "index.js": ""
+      'index.js': ''
     });
 
     yield output.build();
@@ -85,6 +85,11 @@ describe('BroccoliYUIDoc', function() {
       'warnings'
     ]);
 
+    expect(Object.keys(docs.classes)).to.deep.eql([
+      'MyClass.html',
+      'index.html'
+    ]);
+
     expect(data.classes.MyClass).to.be.ok;
     expect(data.classes.MyClass.file).to.be.a('string');
     delete data.classes.MyClass.file
@@ -139,6 +144,11 @@ describe('BroccoliYUIDoc', function() {
       'elements',
       'classitems',
       'warnings'
+    ]);
+
+    expect(Object.keys(docs.classes)).to.deep.eql([
+      'MyNewClass.html',
+      'index.html'
     ]);
 
     expect(data.classes.MyNewClass).to.be.ok;
