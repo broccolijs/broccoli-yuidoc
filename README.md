@@ -1,4 +1,4 @@
-# broccoli-yuidoc
+# broccoli-yuidoc [![Build Status](https://travis-ci.org/broccolijs/broccoli-yuidoc.svg?branch=master)](https://travis-ci.org/broccolijs/broccoli-yuidoc)
 
 This plugin provides support for generating YUIDoc via a broccoli
 pipeline.
