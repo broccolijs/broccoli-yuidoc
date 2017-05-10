@@ -5,20 +5,30 @@
   "description": "YUIDoc generator plugin for broccoli.",
   "version": "2.1.0",
   "repository": {
-    "url": "https://github.com/uitgewis/broccoli-yuidoc"
+    "url": "https://github.com/broccolijs/broccoli-yuidoc"
   },
   "dependencies": {
-    "yuidocjs": "~0.9.0",
-    "broccoli-merge-trees": "^1.1.1",
+    "broccoli-caching-writer": "^3.0.3",
+    "broccoli-merge-trees": "^2.0.0",
     "merge": "~1.2.0",
-    "rsvp": "~3.1.0",
-    "broccoli-caching-writer": "^2.2.1"
+    "rsvp": "^3.5.0",
+    "yuidocjs": "~0.9.0"
   },
-  "engines": {
-    "node": "*"
-  },
+  "files": [
+    "index.js"
+  ],
   "keywords": [
     "broccoli-plugin",
     "yuidoc"
-  ]
+  ],
+  "devDependencies": {
+    "broccoli-test-helper": "^1.1.0",
+    "chai": "^3.5.0",
+    "co": "^4.6.0",
+    "mocha": "^3.3.0"
+  },
+  "scripts": {
+    "test": "mocha tests",
+    "test:debug": "mocha debug tests"
+  }
 }
