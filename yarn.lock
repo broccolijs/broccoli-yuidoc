@@ -84,9 +84,9 @@ aws-sign2@~0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/aws-sign2/-/aws-sign2-0.5.0.tgz#c57103f7a17fc037f02d7c2e64b602ea223f7d63"
 
-balanced-match@^0.4.1:
-  version "0.4.2"
-  resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-0.4.2.tgz#cb3f3e3c732dc0f01ee70b403f302e61d7709838"
+balanced-match@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
 boom@0.4.x:
   version "0.4.2"
@@ -94,11 +94,11 @@ boom@0.4.x:
   dependencies:
     hoek "0.9.x"
 
-brace-expansion@^1.0.0, brace-expansion@^1.1.7:
-  version "1.1.7"
-  resolved "https://registry.npmjs.org/brace-expansion/-/brace-expansion-1.1.7.tgz#3effc3c50e000531fb720eaff80f0ae8ef23cf59"
+brace-expansion@^1.1.7:
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
   dependencies:
-    balanced-match "^0.4.1"
+    balanced-match "^1.0.0"
     concat-map "0.0.1"
 
 braces@^1.8.2:
@@ -249,7 +249,7 @@ commander@2.9.0, commander@^2.5.0:
 
 concat-map@0.0.1:
   version "0.0.1"
-  resolved "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
+  resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
 
 connect@^3.3.3:
   version "3.6.1"
@@ -947,12 +947,6 @@ mime@~1.2.11:
   dependencies:
     brace-expansion "^1.1.7"
 
-minimatch@^2.0.8:
-  version "2.0.10"
-  resolved "https://registry.npmjs.org/minimatch/-/minimatch-2.0.10.tgz#8d087c39c6b38c001b97fca7ce6d0e1e80afbac7"
-  dependencies:
-    brace-expansion "^1.0.0"
-
 minimist@0.0.8, minimist@~0.0.1:
   version "0.0.8"
   resolved "https://registry.npmjs.org/minimist/-/minimist-0.0.8.tgz#857fcabfc3397d2625b8228262e86aa7a011b05d"
@@ -1407,14 +1401,14 @@ yui@^3.18.1:
   dependencies:
     request "~2.40.0"
 
-yuidocjs@~0.9.0:
-  version "0.9.0"
-  resolved "https://registry.npmjs.org/yuidocjs/-/yuidocjs-0.9.0.tgz#d2ff2b37cadf30e3d45385c58f5003e5a83f2723"
+yuidocjs@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/yuidocjs/-/yuidocjs-0.10.2.tgz#33924967ce619024cd70ef694e267d2f988f73f6"
   dependencies:
     express "^4.13.1"
     graceful-fs "^4.1.2"
     markdown-it "^4.3.0"
     mdn-links "^0.1.0"
-    minimatch "^2.0.8"
+    minimatch "^3.0.2"
     rimraf "^2.4.1"
     yui "^3.18.1"
