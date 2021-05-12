@@ -10,7 +10,7 @@
   "dependencies": {
     "broccoli-caching-writer": "^3.0.3",
     "broccoli-merge-trees": "^2.0.0",
-    "merge": "~1.2.0",
+    "merge": "~2.1.1",
     "rsvp": "^3.5.0",
     "yuidocjs": "^0.10.2"
   },
